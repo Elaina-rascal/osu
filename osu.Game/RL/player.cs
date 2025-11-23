@@ -46,7 +46,15 @@ public partial class CustomPlayer : SoloPlayer
                 // 检查类型
                 var typeName = nextHitObject.GetType().Name;
             }
+            //创建发送
+            var Data = new RLData();
+            Data.mouse = mousePosition;
+            _tcpSender.SendAsync(Data);
         }
+
+
     }
+
+    private TcpDataSender _tcpSender=new TcpDataSender("127.0.0.1", 64574);
 }
 }
