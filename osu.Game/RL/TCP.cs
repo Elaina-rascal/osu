@@ -76,6 +76,41 @@ namespace osu.Game.RL
             }
         }
 
+        public async Task SendAsync(string data)
+        {
+            if (data == null)
+            {
+                // Logger.Log("TCP发送失败：数据为null", LoggingTarget.Network, LogLevel.Warning);
+                return;
+            }
+
+            // 确保TCP连接已建立
+            if (!await EnsureConnectionAsync())
+                return;
+
+            try
+            {
+                // 异步发送数据
+                lock (_tcpLock)
+                {
+                    if (_networkStream == null || !_networkStream.CanWrite)
+                        throw new InvalidOperationException("网络流不可写");
+                }
+
+                byte[] sendData = Encoding.UTF8.GetBytes(data + "\n");
+                await _networkStream.WriteAsync(sendData, 0, sendData.Length);
+                await _networkStream.FlushAsync();
+
+                // 调试日志（可选开启）
+                // Logger.Log($"TCP发送成功：{json}", LoggingTarget.Network, LogLevel.Debug);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"TCP发送失败：{ex.Message}", LoggingTarget.Network, LogLevel.Error);
+                CloseConnection(); // 发送失败时关闭连接，下次自动重连
+            }
+        }
+
         /// <summary>
         /// 确保TCP连接已建立（未连接则自动尝试连接）
         /// </summary>
