@@ -839,7 +839,7 @@ namespace osu.Game.Screens.Play
                 return;
             }
 
-            progressToResults(true);
+            Restart(true);
         }
 
         /// <summary>
@@ -1012,10 +1012,7 @@ namespace osu.Game.Screens.Play
         /// </summary>
         private void onFailComplete()
         {
-            GameplayClockContainer.Stop();
-
-            FailOverlay.Retries = RestartCount;
-            FailOverlay.Show();
+            Restart(true);
         }
 
         #endregion

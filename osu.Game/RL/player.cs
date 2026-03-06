@@ -75,6 +75,12 @@ namespace osu.Game.RL
             _tcpSender.SendAsync(json.ToString(Newtonsoft.Json.Formatting.None));
         }
 
+        protected override void Dispose(bool isDisposing)
+        {
+            base.Dispose(isDisposing);
+            _tcpSender?.Dispose();
+        }
+
         private TcpDataSender _tcpSender = new TcpDataSender("127.0.0.1", 64574);
     }
 }
