@@ -16,12 +16,14 @@ using osu.Game.Localisation;
 using osu.Game.Online.API;
 using osu.Game.Overlays;
 using osu.Game.Overlays.Notifications;
+using osu.Game.RL;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Screens.Edit;
 using osu.Game.Screens.Play;
 using osu.Game.Screens.Select;
 using osu.Game.Users;
 using osu.Game.Utils;
+// using osu.Game.RL;
 using WebCommonStrings = osu.Game.Resources.Localisation.Web.CommonStrings;
 
 namespace osu.Game.Screens.SelectV2
@@ -139,7 +141,8 @@ namespace osu.Game.Screens.SelectV2
                 }
                 else
                 {
-                    player = new SoloPlayer();
+                    // player = new SoloPlayer();
+                    player = new CustomPlayer();
                 }
 
                 return player;
